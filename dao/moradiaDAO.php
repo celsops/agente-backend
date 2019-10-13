@@ -1,10 +1,7 @@
-<?php 
-
+<?php
 include "../createConnection.php";
 
 class MoradiaDAO{
-	
-	/*public function __construct(){}*/
 
 	private function verificaCampos($fields){
 		foreach($fields as $f => $v){
@@ -18,13 +15,13 @@ class MoradiaDAO{
 
 	public function create($props){
 		if (!$this->verificaCampos($props)){
-			return False; //"Campos inválidos";
+			return False;
 		}
 
 		$id_moradia = $this->create_moradia($props);
 
 		if( gettype($id_moradia) != "string" ){
-			$num_sus = $props['num_sus'];
+			$num_sus = $props ->numero_sus;
 			$this->create_rel_user_moradia($num_sus, $id_moradia);
 			return "OK!";
 		}else{
@@ -36,36 +33,20 @@ class MoradiaDAO{
 	private function create_moradia($props){
 		$conn = createConnectionDB();
 
-        /*  create table if not EXISTS tbl_moradia(
-	    col_cep int not null,
-	    col_numero int not null,
-	    tem_abastecimento_agua boolean default False,
-	    tem_sistema_esgoto boolean default False,
-	    tem_coleta_lixo boolean default False, 
-	    tem_animais boolean default False,
-	    col_rua_moradia varchar(100) not null,
-	    cod_moradia bigint not null auto_increment,
+		$sql = "insert into tbl_moradia(col_cep, col_numero, col_agua, col_esgoto, col_lixo, col_animal, col_rua_moradia)";
+		$sql = $sql . "values(".$props->col_cep.",".$props->col_numero_casa .",'". $props->col_agua."', '". $props->col_esgoto."','". $props->col_lixo ."','";
+		$sql = $sql . $props->col_tem_animal."','".$props->col_rua_moradia."');";
 
-	    primary key (cod_moradia)
-        );*/
-
-
-		$sql = "insert into tbl_moradia(col_cep, col_numero, tem_abastecimento_agua, tem_sistema_esgoto, tem_coleta_lixo, tem_animais, col_rua_moradia)";
-		$sql = $sql . "values(". $props['col_cep'] .",". $props['col_numero'] .",". $props['col_agua'] . ", ". $props['col_esgoto'].",". $props['col_lixo'].", ". $props['col_tem_animal'].", '". $props['col_rua_moradia'] ."');";
-	
-		//echo $sql . "<br><br>";
-
-		if($conn->query($sql)===True){
+		// var_dump($sql);
+		if ($conn->query($sql)==True){
 			$consulta = "select * from tbl_moradia ordem by cod_moradia desc limit=1;";
 
 			$retorno = $conn->query($consulta);
-			//echo "RETORNO:  " . $retorno;
-
-			/* Coletar o ultimo id inserido para gerar o relacionamento. */
 
 			$conn->close();
 			return $retorno;
-		}else{
+		}
+		else{
 			$conn->close();
 			return "ERROR";
 		}
@@ -92,7 +73,7 @@ class MoradiaDAO{
 		}else{
 			return "ERROR";
 		}
-	} 
+	}
 
 }
 

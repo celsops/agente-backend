@@ -1,14 +1,17 @@
-<?php 
-include "../dao/userHealthDao.php";
-include "../geradorJSON.php";
-
+<?php
 header('Acess-Control-Allow-Origin: *');
 
-$jsonP = json_decode($_GET);
+if (isset($_GET['dados'])){
+  include "../dao/UsuarioSaudeDAO.php";
 
-$health = new UserHealthDAO();
-$r = $health->create_health($jsonP['dados']);
+  $jsonP = json_decode($_GET['dados']);
 
-echo $r;
+  $health = new UsuarioSaudeDAO();
+  $r = $health->create_health($jsonP);
 
+  echo $r;
+}
+else{
+  echo "Nenhum dado enviado!";
+}
 ?>

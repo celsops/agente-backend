@@ -1,28 +1,18 @@
 <?php
-/* Criando  usuario*/
-	require_once("../dao/usuarioDAO2.php");
-	require_once("../geradorJSON.php");
+	header('Acess-Control-Allow-Origin: *');
+	if (isset($_GET['dados'])){
 
-	/*  POST para teste */
+		/* Criando  usuario*/
+		include "../dao/UsuarioDAO.php";
 
-	/*$_POST["num_sus"] = 123456789;
-	$_POST["col_nome"] = "Usuario 01";
-	$_POST["col_genero"] = "M";
-	$_POST["col_obito"] = "";
-	$_POST["col_email"] = "email@email.com";
-	$_POST["col_senha"] = "senha123";
-	$_POST["cod_escolaridade"] = 1;*/
+	  $jsonP = json_decode($_GET['dados']);
 
-    header('Acess-Control-Allow-Origin: *');
-
-    $jsonP = json_decode($_GET);
-
-
-
-	if (!empty($_POST)){
-		
 		$user = new UsuarioDAO();
-		$result = $user->create($jsonP['dados']);
+		// var_dump($jsonP);
+		$result = $user->create($jsonP);
 		echo $result;
+	}
+	else{
+		echo "Nenhum dado foi enviado!";
 	}
 ?>

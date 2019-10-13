@@ -1,14 +1,17 @@
-<?php 
-
-include "../dao/moradiaDAO.php";
-include "../geradorJSON.php";
-
-
+<?php
 header('Acess-Control-Allow-Origin: *');
+ 
+if (isset($_GET['dados'])){
+  include "../dao/moradiaDAO.php";
+  include "../geradorJSON.php";
 
-$jsonP = json_decode($_GET);
-$moradia = new MoradiaDAO();
-$result = $moradia->create($jsonP['dados']);
-echo $result;
+  $jsonP = json_decode($_GET['dados']);
+  $moradia = new MoradiaDAO();
+  $result = $moradia->create($jsonP);
+  echo $result;
+}
+else{
+  echo "Nenhum dado foi enviado!";
+}
 
 ?>

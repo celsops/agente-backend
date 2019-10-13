@@ -1,13 +1,18 @@
 <?php
 
-include "../dao/UsuarioDAO2.php";
-
 header('Acess-Control-Allow-Origin: *');
 
-$jsonP = json_decode($_GET);
+if (isset($_GET['dados'])){
+  include "../dao/UsuarioDAO.php";
 
-$user = new UsuarioDAO();
-$r = $user->do_login($jsonP['dados']);
-echo $r;
+  $jsonP = json_decode($_GET['dados']);
+
+  $user = new UsuarioDAO();
+  $r = $user->do_login($jsonP);
+  echo $r;
+}
+else{
+  echo "Nenhum dado enviado!";
+}
 
 ?>

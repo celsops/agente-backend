@@ -1,10 +1,14 @@
+create database if not exists agente CHARACTER SET utf8 COLLATE utf8_general_ci;;
+
+use agente;
+
 create table if not EXISTS tbl_escolaridade(
 	cod_escolaridade int not null primary key,
 	nom_escolaridade varchar(255) not null
 );
 
 create table if not EXISTS tbl_deficiencia(
-	cod_deficiencia int not null auto_increment primary key,
+	cod_deficiencia int not null primary key,
 	nom_deficiencia varchar(255) not null
 );
 
@@ -17,9 +21,7 @@ create table if not EXISTS tbl_usuario(
     col_plano_saude boolean default False,
     col_mudanca boolean default False,
 		cod_escolaridade varchar(50) not null,
-    col_crianca_fica_com varchar(50) not null,
-    col_email varchar(255) not null,
-    col_senha varchar(255) not null
+    col_crianca_fica_com varchar(50) not null
 );
 
 create table if not EXISTS tbl_cidadao_rua(
@@ -32,7 +34,7 @@ create table if not EXISTS tbl_cidadao_rua(
     col_recebe_beneficio boolean default False,
     col_possui_referencia_familiar boolean default False,
 
-    foreign key (num_sus) references tbl_usuario(num_sus),
+    -- foreign key (num_sus) references tbl_usuario(num_sus),
     primary key (num_sus)
 );
 
@@ -56,16 +58,15 @@ create table if not EXISTS tbl_profissional(
 create table if not EXISTS tbl_moradia(
 	col_cep int not null,
 	col_numero int not null,
-	tem_abastecimento_agua boolean default False,
-	tem_sistema_esgoto boolean default False,
-	tem_coleta_lixo boolean default False,
-	tem_animais boolean default False,
+	col_agua varchar(50) default False,
+	col_esgoto varchar(50) default False,
+	col_lixo varchar(50) default False,
+	col_animal varchar(3) default False,
 	col_rua_moradia varchar(100) not null,
-
 	cod_moradia bigint not null auto_increment,
 
 	primary key (cod_moradia)
-	/*primary key (col_cep, col_rua_moradia, col_numero) */
+
 );
 
 create table if not EXISTS tbl_rel_usuario_moradia(
@@ -108,16 +109,15 @@ create table if not EXISTS tbl_saude_cidadao(
 	col_doenca_cardiaca varchar(100)default False,
   col_doenca_respiratoria varchar(100)default False,
   col_problema_rins varchar(100)default False,
-  col_e_fumante boolean default False,
-	col_usa_alcool boolean default False,
+  col_fumante boolean default False,
+	col_alcool boolean default False,
 	col_avc boolean default False,
-  col_usa_drogas boolean default False,
+  col_drogas boolean default False,
 	col_hipertensao boolean default False,
 	col_diabetes boolean default False,
   col_mudanca boolean default False,
   col_cancer boolean default False,
 
-	foreign key (num_sus) references tbl_usuario(num_sus),
 	primary key (num_sus)
 );
 
@@ -179,7 +179,16 @@ create table if not EXISTS tbl_rel_categoria_ocorrencia_notificacao(
 	primary key (cod_area, cod_notificacao)
 );
 
+create table if not EXISTS tbl_agente(
+	col_cpf bigint  not null primary key,
+	col_email varchar(50) not null,
+	col_senha varchar(50) not null
+);
+
 /* ------------------ INSERCOES ---------------*/
+-- tbl_agente
+insert into tbl_agente(col_cpf,col_email,col_senha) value(13145776460,"celso@gmail.com","78e8fea18bbb38173aef8d85b948b9c6");
+
 /* tbl_cargo_profissional */
 insert into tbl_cargo_profissional(cod_cargo, nom_cargo) values("ADM01", "Gerente");
 insert into tbl_cargo_profissional(cod_cargo, nom_cargo) values("CMP01", "Fiscal");
@@ -204,12 +213,12 @@ insert into tbl_doenca(cod_cid, nom_doenca, col_descricao_doenca) values('000', 
 insert into tbl_doenca(cod_cid, nom_doenca, col_descricao_doenca) values('001', 'Outras', '');
 
 /* tbl_deficiencia */
-insert into tbl_deficiencia(nom_deficiencia) values("Não possuí");
-insert into tbl_deficiencia(nom_deficiencia) values("Auditiva");
-insert into tbl_deficiencia(nom_deficiencia) values("Visual");
-insert into tbl_deficiencia(nom_deficiencia) values("Física");
-insert into tbl_deficiencia(nom_deficiencia) values("Intelctual/Cognitiva");
-insert into tbl_deficiencia(nom_deficiencia) values("Outra");
+insert into tbl_deficiencia(cod_deficiencia,nom_deficiencia) values(1, "Não possui");
+insert into tbl_deficiencia(cod_deficiencia,nom_deficiencia) values(2, "Auditiva");
+insert into tbl_deficiencia(cod_deficiencia,nom_deficiencia) values(3, "Visual");
+insert into tbl_deficiencia(cod_deficiencia,nom_deficiencia) values(4, "Física");
+insert into tbl_deficiencia(cod_deficiencia,nom_deficiencia) values(5, "Intelectual/Cognitiva");
+insert into tbl_deficiencia(cod_deficiencia,nom_deficiencia) values(6, "Outra");
 
 /* tbl_escolaridade */
 insert into tbl_escolaridade (cod_escolaridade, nom_escolaridade) value (1, 'Ensino Fundamental');
