@@ -1,6 +1,6 @@
-create database if not exists agente CHARACTER SET utf8 COLLATE utf8_general_ci;;
-
-use agente;
+-- create database if not exists agente CHARACTER SET utf8 COLLATE utf8_general_ci;;
+--
+-- use agente;
 
 create table if not EXISTS tbl_escolaridade(
 	cod_escolaridade int not null primary key,
@@ -187,7 +187,7 @@ create table if not EXISTS tbl_agente(
 
 /* ------------------ INSERCOES ---------------*/
 -- tbl_agente
-insert into tbl_agente(col_cpf,col_email,col_senha) value(13145776460,"celso@gmail.com","78e8fea18bbb38173aef8d85b948b9c6");
+-- insert into tbl_agente(col_cpf,col_email,col_senha) value(13145776460,"celso@gmail.com","78e8fea18bbb38173aef8d85b948b9c6");
 
 /* tbl_cargo_profissional */
 insert into tbl_cargo_profissional(cod_cargo, nom_cargo) values("ADM01", "Gerente");
